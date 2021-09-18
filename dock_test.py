@@ -19,4 +19,9 @@ buttons = driver.find_elements_by_class_name('tapper')
 docks = driver.find_elements_by_class_name('in-dock')
 
 dock: WebElement = container.find_element_by_id('dock')
-print(dock.text)
+button = dock.find_elements_by_tag_name('div')
+
+for i in button:
+    i.click()
+
+print("_" + ''.join(dock.text.split('\n')) +"_")
