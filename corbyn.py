@@ -33,10 +33,11 @@ def hexToBinary(hexNum):
   return "{0:08b}".format(int(hexNum, 16))
 
 def sendBinary(binary):
-  reset()
+  current = getCurrentBinary()
 
   for index, letter in enumerate(binary[::-1]):
-    if letter == '1':
+    
+    if letter != current[index]:
       buttons[index].click()
     
 
@@ -60,8 +61,8 @@ def main():
       except:
         pass
 
-    if count < 20: #! EXPERIMENT
-      sleep(INTERVAL)
+    # if count < 40: #! EXPERIMENT
+    #   sleep(INTERVAL)
     
       
 
