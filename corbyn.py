@@ -18,6 +18,17 @@ container.click()
 buttons = driver.find_elements_by_class_name('tapper')
 docks = driver.find_elements_by_class_name('in-dock')
 
+dock: WebElement = container.find_element_by_id('dock')
+
+def getCurrentBinary():
+  return ''.join(dock.text.split('\n')) 
+
+def reset():
+  for index, value in enumerate(getCurrentBinary()):
+    if value == '1':
+      buttons[index].click()
+
+
 def hexToBinary(hexNum):
   return "{0:08b}".format(int(hexNum, 16))
 
@@ -27,39 +38,41 @@ def sendBinary(binary):
   for index, letter in enumerate(binary[::-1]):
     if letter == '1':
       buttons[index].click()
-
-def reset():
-  elements = container.find_elements_by_class_name('in-dock')
-
-  for index, element in enumerate(elements):
-    if 'selected' in element.get_attribute('class'):
-      i = int(element.get_attribute('data-index'))
-     
-      buttons[i].click()
+    
 
 ###
 
-INTERVAL = 2.5
+INTERVAL = 1.75
 
 def main():
+  
+  sleep(INTERVAL)
 
-    while True:
-        sleep(INTERVAL)
-
-        enemies = driver.find_elements_by_class_name('enemy')
-
-        for i in enemies:
-            try:
-                sendBinary(hexToBinary(i.text))
-            except:
-                pass
+  while True:
     
+
+    enemies = driver.find_elements_by_class_name('enemy')
+    count = len(enemies)
+
+    for i in enemies:
+      try:
+        sendBinary(hexToBinary(i.text))
+      except:
+        pass
+
+    if count < 20: #! EXPERIMENT
+      sleep(INTERVAL)
+    
+      
 
 if __name__ == '__main__':
-    THREAD_COUNT = 3
-    
+  THREAD_COUNT = 1
+      
+  if THREAD_COUNT > 1:
     for _ in range(THREAD_COUNT):
-        thread = Thread(None, main)
+      thread = Thread(None, main)
 
-        thread.start()
-        sleep(INTERVAL / THREAD_COUNT)
+      thread.start()
+      sleep(INTERVAL / THREAD_COUNT)
+  else:
+    main()

@@ -19,9 +19,13 @@ buttons = driver.find_elements_by_class_name('tapper')
 docks = driver.find_elements_by_class_name('in-dock')
 
 dock: WebElement = container.find_element_by_id('dock')
-button = dock.find_elements_by_tag_name('div')
 
-for i in button:
-    i.click()
+def getCurrentBinary():
+    return ''.join(dock.text.split('\n')) 
 
-print("_" + ''.join(dock.text.split('\n')) +"_")
+def reset():
+    for index, value in enumerate(getCurrentBinary()):
+        if value == '0':
+            buttons[index].click()
+
+
