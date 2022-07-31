@@ -2,7 +2,7 @@ from selenium import webdriver
 from time import sleep
 
 from selenium.webdriver.remote.webelement import WebElement
-from threading import Thread
+# from threading import Thread
 
 
 DRIVER_PATH = '../chromedriver.exe'
